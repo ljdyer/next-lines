@@ -4,12 +4,14 @@ body {
   margin: auto;
   text-align: center;
   padding: 20px;
-  font-size: 1vw;
+  font-size: 1.2em;
 }
 
 input[type="text"] {
-  font-size: 1vw;
-  width: 50%
+  font-size: 1.2em;
+  width: 85%;
+  max-width: 600px;
+  height: 40px !important
 }
 
 #question {
@@ -18,6 +20,8 @@ input[type="text"] {
 }
 
 #ask {
+  height: 40px;
+  font-size: 1.2em;
   width: 15%;
   max-width: 75px
 }
