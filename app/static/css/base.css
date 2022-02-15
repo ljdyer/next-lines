@@ -9,6 +9,7 @@ body {
 
 input[type="text"] {
   font-size: 1vw;
+  width: 50%
 }
 
 #question {

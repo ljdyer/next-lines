@@ -22,7 +22,7 @@ def adder_page():
             answer = answer_question(question)
             session["dialogue"].append(f'{question.strip(".")}...<br>' +
                                        f"...{answer['next_line']}<br>" +
-                                       f"{answer['song_name']} by {answer['artist_name']}<br>")
+                                       f"{answer['song_name']} by {answer['artist_name']}")
             if len(session["dialogue"]) > 5:
                 session["dialogue"] = session["dialogue"][-5:]
             session.modified = True
@@ -36,7 +36,7 @@ def adder_page():
                 <p>{blurb}</p>
                 <form method="post" action=".">
                     <div class="row" style="width: 100%">
-                        <input name="this_line" id="this_line" />
+                        <input type="text" name="this_line" id="this_line" />
                         <input type="submit" value="Ask" id="ask" />
                     </div>
                     <p>{'<br><br>'.join(session["dialogue"])}</p>
