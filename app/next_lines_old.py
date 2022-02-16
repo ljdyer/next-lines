@@ -1,28 +1,39 @@
 from helper.html_helper import get_bs, get_lines
 from fuzzywuzzy import process
 
-SEARCH_ROOT = "https://lyrics.com/lyrics"
-SITE_ROOT = "https://lyrics.com/"
+SONGSEARCH_ROOT = "https://songsear.ch"
+
+
+# ====================
+def http_encode_char_or_space(c):
+
+    if c == ' ':
+        return "%20"
+    else:
+        return c
 
 
 # ====================
 def get_search_url(lyrics):
 
-    lyrics_http_encoded = lyrics.replace(" ", "%20")
-    return f'{SEARCH_ROOT}/{lyrics_http_encoded}'
+    lyrics = ''.join([http_encode_char_or_space(c.lower())
+                      for c in lyrics])
+    return f'https://songsear.ch/q/{lyrics}'
 
 
 # ====================
 def get_top_match(search_page):
 
     bs = get_bs(search_page)
-    first_result = bs.find(name='div', class_='sec-lyric')
+    first_result = bs.find(name='div', class_='result')
 
-    song_name = first_result.find(name='p', class_='lyric-meta-title').text
-    song_link = SITE_ROOT + first_result.find(name='p', class_='lyric-meta-title').find(name='a')['href']
-    artist_name = first_result.find(name='p', class_='lyric-meta-album-artist').text
+    title_tag = first_result.find(name='h2')
+    song_name = title_tag.find(name='a').text
+    song_link = SONGSEARCH_ROOT + title_tag.find(name='a')['href']
 
-    print('here')
+    artist_tag = first_result.find(name='h3')
+    artist_name = artist_tag.find(name='b').text
+
     return song_name, artist_name, song_link
 
 
@@ -30,9 +41,7 @@ def get_top_match(search_page):
 def get_lyric_lines(lyrics_url):
 
     bs = get_bs(lyrics_url)
-    lyrics = get_lines(bs.find(name='pre'))
-    for line in lyrics:
-        print(line)
+    lyrics = get_lines(bs.find(name='blockquote'))
     return lyrics
 
 
@@ -50,7 +59,6 @@ def answer_question(first_line_raw: str):
 
     try:
         search_url = get_search_url(first_line_raw)
-        print(search_url)
         song_name, artist_name, song_link = get_top_match(search_url)
         lyric_lines = get_lyric_lines(song_link)
         next_line, confidence = get_next_line(first_line_raw, lyric_lines)

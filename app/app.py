@@ -20,7 +20,8 @@ def index():
 @app.route("/get_answer", methods=["POST"])
 def get_answer():
 
-    input_line = request.data
+    input_line = request.data.decode('UTF-8')
+    print(input_line)
     answer = answer_question(str(input_line))
 
     return jsonify(answer)

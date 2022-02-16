@@ -74,7 +74,7 @@ def get_lines(tag) -> list:
     """Get text from all tags contained in bs4 ResultSet and
     return as a list of lines"""
 
-    return [t.text.strip() for t in tag if len(t)]
+    return ''.join(tag.findAll(text=True)).splitlines()
 
 
 # ====================

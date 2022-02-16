@@ -32,6 +32,7 @@ function getAnswer(){
 
 function thinking(){
     $('#answer-thinking').show();
+    $('#answer-previous').hide();
     $('#answer-answer').hide();
     $('#feedback').hide();
 }

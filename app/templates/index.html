@@ -15,17 +15,18 @@
         <img class='top-img' src="static/img/next-lines.PNG"><img>
     </div>
     <div class="container container-middle">
-        <h2 class="main-text">Type a line from any song and "ASK"!</h2>
-        <form id="question-form">
-            <div class="row">
-                <div class="input-col">
-                    <input id="question-input" type="text" class="main-text font-std" autocomplete="off">
-                </div>
-                <div class="submit-col">
-                    <input id="ask" type="button" value="ASK" class="ask main-text">
-                </div>
+        <div class="row">
+            <h2 class="blurb main-text">Type a line from any song and "ASK"!</h2><img class="question-mark" src="static/img/question-mark.PNG">
+        </div>
+        <div class="row">
+            <div class="input-col">
+                <input id="question-input" type="text" class="main-text font-std" autocomplete="off">
             </div>
-        </form>
+            <div class="submit-col">
+                <input id="ask" type="button" value="ASK" class="ask main-text">
+            </div>
+        </div>
+    
         <div id="answer" style="display: none">
             <p id="answer-thinking" class="main-text font-std" style="display: none">Hmm. Let me think for a second...</p>
             <p id="answer-previous" class="main-text font-small" style="display: none">
