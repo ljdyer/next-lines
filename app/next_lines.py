@@ -57,15 +57,21 @@ def get_next_line(first_line_raw: str, lyric_lines: list) -> str:
 # ====================
 def answer_question(first_line_raw: str):
 
-    search_url = get_search_url(first_line_raw)
-    song_name, artist_name, song_link = get_top_match(search_url)
-    lyric_lines = get_lyric_lines(song_link)
-    next_line, confidence = get_next_line(first_line_raw, lyric_lines)
-
-    return {
-        'song_name': song_name, 'artist_name': artist_name,
-        'next_line': next_line, 'confidence': confidence
-    }
+    try:
+        search_url = get_search_url(first_line_raw)
+        song_name, artist_name, song_link = get_top_match(search_url)
+        lyric_lines = get_lyric_lines(song_link)
+        next_line, confidence = get_next_line(first_line_raw, lyric_lines)
+    except Exception as e:
+        return {
+            'success': False, 'err_msg': str(e)
+        }
+    else:
+        return {
+            'success': True,
+            'song_name': song_name, 'artist_name': artist_name,
+            'next_line': next_line, 'confidence': confidence
+        }
 
 
 # ===========
