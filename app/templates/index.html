@@ -11,13 +11,19 @@
 </head>
 
 <body>
+    <!-- Top image -->
     <div class="container container-top">
-        <img class='top-img' src="static/img/next-lines.PNG"><img>
+        <a href="https://next-lines.herokuapp.com/"><img class='top-img' src="static/img/next-lines.PNG"><img></a>
     </div>
+    
     <div class="container container-middle">
+
+        <!-- Blurb -->
         <div class="row">
             <h2 class="blurb main-text">Type a line from any song and "ASK"!</h2><img class="question-mark" src="static/img/question-mark.PNG">
         </div>
+
+        <!-- Question form -->
         <div class="row">
             <div class="input-col">
                 <input id="question-input" type="text" class="main-text font-std" autocomplete="off">
@@ -26,30 +32,42 @@
                 <input id="ask" type="button" value="ASK" class="ask main-text">
             </div>
         </div>
-    
-        <div id="answer" style="display: none">
-            <p id="answer-thinking" class="main-text font-std" style="display: none">Hmm. Let me think for a second...</p>
-            <p id="answer-previous" class="main-text font-small" style="display: none">
-                Previous answer:
-            </p>
-            <p id="answer-pass" class="main-text font-std" style="display: none">PASS. I don't know that one.</p>
-            <div id="answer-answer" class="main-text font-std">
+
+        <!-- Answer display -->
+        <div id="answer" class="row">
+            <div id="answer-thinking" style="display: none;">
+                <p class="main-text font-std">Hmm. Let me think for a second...</p>
+            </div>
+            <div id="answer-previous" style="display: none;">
+                <p class="main-text font-small">Previous answer:</p>
+            </div>
+            <div id="answer-pass" style="display: none;">
+                <p class="main-text font-std">PASS. I don't know that one.</p>
+            </div>
+            <div id="answer-answer" style="display: none;" class="main-text font-std">
                 <p style="margin-bottom: 5px;">
                     <span id="next-line"></span>
                 </p>
-                <p style="margin-top: 0px !important;">
+                <p style="margin-top: 0px !important; margin-bottom: 0px">
                     <span id="song-name"></span> <span class="by">by</span> <span id="artist-name"></span>
                 </p>
-            <p>
+            </div>
         </div>
-        <div id="feedback" class="main-text sml-fnt" style="display: none">
-            <p id="feedback-please" class="font-small correct">Is this answer correct?</p>
-            <form id="feedback-buttons">
-                <input type="button" id="feedback-correct" class="feedback-btn yes" value="✔"></input>
-                <input type="button" id="feedback-incorrect" class="feedback-btn no" value="✖"></input>
-            </form>
-            <p id="feedback-thanks" style="display: none;">Thank you for providing feedback.</p>
+
+        <!-- Feedback module -->
+        <div id="feedback" class="row">
+            <div id="feedback-please" style="display: none;">
+                <p class="main-text font-small correct">Is this answer correct?</p>
+            </div>
+            <div id="feedback-buttons" style="display: none;">
+                <input type="button" id="feedback-correct" class="main-text feedback-btn yes" value="✔"></input>
+                <input type="button" id="feedback-incorrect" class="main-text feedback-btn no" value="✖"></input>
+            </div>
+            <div id="feedback-thanks" style="display: none;">
+                <p>Thank you for providing feedback.</p>
+            </div>
         </div>
+
     </div>
 </body>
 

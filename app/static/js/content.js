@@ -1,46 +1,67 @@
 var NON_CHANGING_KEYS = [9, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 44, 45];
 
-function getAnswer(){
-    thinking();
-    $('#question-input').prop('disabled', true);
-    $('#ask').prop('disabled', true);
-    let inputLine = $("#question-input").val()
+function handleAsk(){
+    showThinking();
+    disableEdit();
+    let inputLine = $("#question-input").val();
+    getAnswer(inputLine);
+}
+
+function getAnswer(inputLine){
     fetch('/get_answer', {method: "POST", body: inputLine}).then(
-        response => response.text().then(
-            json_response => {
-                response = JSON.parse(json_response);
-                if (response['success']){
-                    $('#next-line').text(response['next_line']);
-                    $('#song-name').text(response['song_name']);
-                    $('#artist-name').text(response['artist_name']);
-                    $('#answer-thinking').hide();
-                    $('#answer-pass').hide();
-                    $('#answer-answer').show();
-                    feedbackPlease();
-                } else{
-                    $('#answer-thinking').hide();
-                    $('#answer-answer').hide();
-                    $('#answer-pass').show();
-                }
-                $('#question-input').prop('disabled', false);
-                $("#question-input").focus();
-                $('#answer').show();
-                $('#answer-previous').hide();
-            })
-        );
+        response => response.text().then(json_response => {
+            response = JSON.parse(json_response);
+            console.log(response);
+            if (response.success){
+                $('#next-line').text(response.next_line);
+                $('#song-name').text(response.song_name);
+                $('#artist-name').text(response.artist_name);
+                showAnswer();
+            } else{
+                showPass();
+            }
+            enableEdit();
+        })
+    );
 }
 
-function thinking(){
+function handleQuestionInputKeyup(event){
+    if (event.which == 13) {
+        if ($('#ask').prop('disabled') == false) {
+            handleAsk();
+        }
+    } else if (!(NON_CHANGING_KEYS.includes(event.which))) {
+        handleEdit();
+    }
+}
+
+function handleEdit(){
+    if ($('#answer-answer').is(":visible")){
+        $('#answer-previous').show();
+    }
+    enableAsk();
+}
+        
+function showThinking(){
+    hideAllAnswerAndFeedbackDivs();
+    $('#feedback').children('div').hide();
     $('#answer-thinking').show();
-    $('#answer-previous').hide();
-    $('#answer-answer').hide();
-    $('#feedback').hide();
 }
 
-function newQuestion(){
-    $('#ask').prop('disabled', false);
-    $('#answer-previous').show();
-    $('#feedback').hide();
+function showAnswer(){
+    hideAllAnswerAndFeedbackDivs();
+    $('#answer-answer').show();
+    feedbackPlease();
+}
+
+function showPass(){
+    hideAllAnswerAndFeedbackDivs();
+    $('#answer-pass').show();
+}
+
+function hideAllAnswerAndFeedbackDivs(){
+    $('#answer').children('div').hide();
+    $('#feedback').children('div').hide();
 }
 
 function feedbackCorrect(){
@@ -52,46 +73,46 @@ function feedbackIncorrect(){
 }
 
 function feedbackPlease(){
-    $('#feedback').show();
-    $('#feedback-correct').show();
-    $('#feedback-incorrect').show();
-    $('#feedback-please').text('Is this answer correct?');
+    $('#feedback').children('div').hide();
     $('#feedback-please').show();
+    $('#feedback-buttons').show();
 }
 
 function feedbackThanks(){
-    $('#feedback-correct').hide();
-    $('#feedback-incorrect').hide();
-    $('#feedback-please').text('Thank you for providing feedback');
+    $('#feedback').children('div').hide();
+    $('#feedback-thanks').show();
+}
+
+function disableEdit(){
+    $('#question-input').prop('disabled', true);
+    $('#ask').prop('disabled', true);
+}
+
+function enableEdit(){
+    $('#question-input').prop('disabled', false);
+    $('#question-input').focus();
+}
+
+function enableAsk(){
+    $('#ask').prop('disabled', false);
 }
 
 
 $(document).ready(function () {
-    $("#question-input").focus();
-    $('#question-form').submit(function(event){
-        event.preventDefault();
-    })
     $('#ask').click(function(){
-        getAnswer();
+        handleAsk();
     });
     $('#feedback-correct').click(function(){
         feedbackCorrect();
-    })
+    });
     $('#feedback-incorrect').click(function(){
         feedbackIncorrect();
-    })
+    });
     $("#question-input").on('change paste', function () {
-        newQuestion();
+        handleEdit();
     });
     $("#question-input").keyup(function(event) {
-        if (event.which == 13){
-            if ($('#ask').prop('disabled') == false) {
-                getAnswer();
-            }
-        } else if (NON_CHANGING_KEYS.includes(event.which)) {
-        } else{
-            newQuestion();
-        }
+        handleQuestionInputKeyup(event);
     });
-
+    $("#question-input").focus();
 });

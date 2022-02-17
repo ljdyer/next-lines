@@ -29,7 +29,7 @@ body {
   text-transform: uppercase
 }
 
-.blurb{
+.blurb {
   display: inline;
 }
 
@@ -146,7 +146,7 @@ input[type=text], select, textarea {
   clear: both;
 }
 
-.row{
+.row {
   margin-top: 10px;
   margin-bottom: 10px;
 }
